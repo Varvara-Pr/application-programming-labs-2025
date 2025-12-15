@@ -13,9 +13,14 @@ class ImageIterator:
         self.data: List[str] = []
         self.index: int = 0
 
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Путь не найден: {path}")
+
         if path.endswith(".csv"):
             self._load_csv(path)
         else:
+            if not os.path.isdir(path):
+                raise ValueError(f"Путь должен быть директорией или CSV файлом: {path}")
             self._load_folder(path)
 
     def _load_folder(self, folder_path: str) -> None:
